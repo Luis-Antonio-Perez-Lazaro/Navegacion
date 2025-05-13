@@ -4,8 +4,11 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -15,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.luislazaro.navegacion.components.MainButton
+import com.luislazaro.navegacion.components.MainIconButton
 import com.luislazaro.navegacion.components.Space
 import com.luislazaro.navegacion.components.TittleBar
 import com.luislazaro.navegacion.components.TittleView
@@ -24,7 +28,8 @@ import com.luislazaro.navegacion.components.TittleView
 @Composable
 fun DetailView(
     navController: NavController,
-    fromThird: Boolean = false
+    fromThird: Boolean = false,
+    id:Int = 123
 ){
     Scaffold(
         topBar = {
@@ -32,11 +37,17 @@ fun DetailView(
                 title = { TittleBar(name = "Detail View") },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = Color.Blue
-                )
+                ),
+                navigationIcon = {
+                    MainIconButton(icon = Icons.Default.ArrowBack) {
+                        navController.popBackStack()
+                    }
+                }
             )
+
         }
     ) {
-        ContentDetailView(navController, fromThird)
+        ContentDetailView(navController, fromThird, id)
     }
 }
 
@@ -44,7 +55,8 @@ fun DetailView(
 @Composable
 fun ContentDetailView(
     navController: NavController,
-    fromThird: Boolean
+    fromThird: Boolean,
+    id:Int
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -52,6 +64,8 @@ fun ContentDetailView(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TittleView(name = "Detail View")
+        Space()
+        TittleView(name = "$id")
         Space()
         if (!fromThird) {
             MainButton(name = "Third View", backColor = Color.Blue, color = Color.White) {

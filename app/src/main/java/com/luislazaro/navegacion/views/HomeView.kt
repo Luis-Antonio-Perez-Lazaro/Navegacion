@@ -52,6 +52,7 @@ fun HomeView(
 fun ContentHomeView(
     navController: NavController
 ) {
+    val id = 123
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -60,7 +61,8 @@ fun ContentHomeView(
         TittleView(name = "Home View")
         Space()
         MainButton(name = "Detail View", backColor = Color.Red, color = Color.White) {
-            navController.navigate("Detail")
+//            println("Soy boton generico")
+            navController.navigate("Detail/${id}")
         }
     }
 }
