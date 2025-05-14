@@ -3,7 +3,9 @@ package com.luislazaro.navegacion.views
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -16,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.luislazaro.navegacion.components.MainButton
 import com.luislazaro.navegacion.components.MainIconButton
@@ -29,7 +32,8 @@ import com.luislazaro.navegacion.components.TittleView
 fun DetailView(
     navController: NavController,
     fromThird: Boolean = false,
-    id:Int = 123
+    id:Int = 123,
+    opcional: String?
 ){
     Scaffold(
         topBar = {
@@ -47,7 +51,7 @@ fun DetailView(
 
         }
     ) {
-        ContentDetailView(navController, fromThird, id)
+        ContentDetailView(navController, fromThird, id, opcional)
     }
 }
 
@@ -56,7 +60,8 @@ fun DetailView(
 fun ContentDetailView(
     navController: NavController,
     fromThird: Boolean,
-    id:Int
+    id:Int,
+    opcional: String?
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -65,8 +70,13 @@ fun ContentDetailView(
     ) {
         TittleView(name = "Detail View")
         Space()
-        TittleView(name = "$id")
+        TittleView(name = id.toString())
         Space()
+        if (opcional == ""){
+            Spacer(modifier = Modifier.height(0.dp))
+        }else{
+            TittleView(name = opcional.orEmpty())
+        }
         if (!fromThird) {
             MainButton(name = "Third View", backColor = Color.Blue, color = Color.White) {
                 navController.navigate("Third")

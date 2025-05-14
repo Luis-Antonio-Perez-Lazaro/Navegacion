@@ -8,8 +8,13 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -48,11 +53,14 @@ fun HomeView(
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContentHomeView(
     navController: NavController
 ) {
     val id = 123
+    var opcional by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -60,9 +68,14 @@ fun ContentHomeView(
     ) {
         TittleView(name = "Home View")
         Space()
+        TextField(
+            value = opcional,
+            onValueChange = { opcional = it },
+            label = { Text(text = "Opcional") }
+        )
         MainButton(name = "Detail View", backColor = Color.Red, color = Color.White) {
-//            println("Soy boton generico")
-            navController.navigate("Detail/${id}")
+            val opcionalSanitized = opcional.ifBlank { " " }.replace("/", "_")
+            navController.navigate("Detail/$id/$opcionalSanitized")
         }
     }
 }
